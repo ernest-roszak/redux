@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function Button( {label, to}) {
+function Button( {label, to, onClick }) {
     return (
         <Link to={to}>
-            <button>{label}</button>
+            <button onClick={onClick}>{label}</button>
         </Link>
     )
 }
