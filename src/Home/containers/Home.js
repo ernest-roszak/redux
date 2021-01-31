@@ -1,10 +1,15 @@
 import React from 'react'
-import Button from '../components/Button'
+import Button from '../components/Button';
+import { connect } from "react-redux";
+import { add, minus, reset} from "../../Counter/redux"
 
-function Home() {
+function Home({ counterValue, addValue, minusValue, resetValue }) {
     return (
         <div>
-            <h1>Home1</h1>
+            <h1>Home {counterValue} </h1>
+            <Button onClick={addValue} label="ADD Counter" />
+            <Button onClick={minusValue} label="MINUS Counter" />
+            <Button onClick={resetValue} label="RESET Counter" />
             <Button to="/" label="Load" />
             <Button to="/" label="Reset" />
             <Button to="/" label="Add" />
@@ -13,4 +18,18 @@ function Home() {
     )
 }
 
-export default Home
+function mapStateToProps(state) {
+    return {
+        counterValue: state.counter
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return  {
+        addValue: () => dispatch(add()),
+        minusValue: () => dispatch(minus()),
+        resetValue: () => dispatch(reset())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
