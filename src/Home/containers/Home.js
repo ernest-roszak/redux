@@ -2,14 +2,15 @@ import React from 'react'
 import Button from '../components/Button';
 import { connect } from "react-redux";
 import { add, minus, reset} from "../../Counter/redux"
+import ButtonCounter from '../../Counter/components/ButtonCounter';
 
 function Home({ counterValue, addValue, minusValue, resetValue }) {
     return (
         <div>
             <h1>Home {counterValue} </h1>
-            <Button onClick={addValue} label="ADD Counter" />
-            <Button onClick={minusValue} label="MINUS Counter" />
-            <Button onClick={resetValue} label="RESET Counter" />
+            <ButtonCounter onClick={addValue} label="ADD Counter" />
+            <ButtonCounter onClick={minusValue} label="MINUS Counter" />
+            <ButtonCounter onClick={resetValue} label="RESET Counter" />
             <Button to="/" label="Load" />
             <Button to="/" label="Reset" />
             <Button to="/" label="Add" />
@@ -20,7 +21,7 @@ function Home({ counterValue, addValue, minusValue, resetValue }) {
 
 function mapStateToProps(state) {
     return {
-        counterValue: state.counter
+        counterValue: state.counterInStore.counter
     }
 }
 
