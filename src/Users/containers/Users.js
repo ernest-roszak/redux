@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux';
 import Button from '../../Home/components/Button';
+import { fetchUsers } from '../redux';
 import UserList from '../components/UserList';
 
-function Users() {
-    const [users, setUsers] = useState([]);
-    const [isLoading, setLoading] = useState(true);
-    const [isError, setError] = useState(false);
+function Users({isError, isLoading, users, fetchUsers}) {
+    console.log('USERS', users)
+    console.log('isLoading', isLoading)
 
     useEffect(() => {
-        fetch('https://randomuser.me/api/?results=10')
-        .then(response => response.json())
-        .then(data =>  {
-            setUsers(data.results)
-            setLoading(false)
-            setError(false)
-        })
-        .catch(error => {
-            console.log(error)
-            setLoading(false)
-            setError(true)
-        })
-    }, [])
-// console.log(users)
+        fetchUsers()
+    },[fetchUsers, users])
+
+    // useEffect(() => {
+    //     if (users.length === 0) {
+    //       fetchUsers();
+    //     }
+    //   }, [fetchUsers, users]);
+    
+      console.log('IN', users)
+
+
     return (
         <div>
             <h1>Users</h1>
             {isLoading && <p>Loading...</p>}
             {isError && <p>Something went wrong...</p>}
-            {users.map(el => (
+            {users && users.map(el => (
                 <UserList key={el.login.uuid} name={el.name.first} />
             ))}
             <Button to="/" label="Back to Home" />
@@ -35,4 +34,30 @@ function Users() {
     )
 }
 
-export default Users
+// const mapStateToProps = (state) => {
+//     return {
+//       users: state.users.users,
+//       isLoading: state.users.isLoading,
+//       isError: state.users.isError
+//     };
+//   };
+//   const mapDispatchToProps = (dispatch) => {
+//     return {
+//       fetchUsers: () => dispatch(fetchUsers())
+//     };
+//   };
+//   export default connect(mapStateToProps, mapDispatchToProps)(Users);
+
+const mapStateToProps = (state) => {
+    return {
+    users: state.users.users,
+    isLoading: state.users.isLoading,
+    isError: state.users.isError
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+    fetchUsers: () => dispatch(fetchUsers())
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
